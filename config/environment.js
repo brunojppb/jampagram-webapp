@@ -6,6 +6,14 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
+    contentSecurityPolicy: {
+      'default-src': "'none'",
+      'script-src': "'self'",
+      'font-src': "'self' fonts.gstatic.com",
+      'connect-src': "'self'",
+      'img-src': "'self' data:",
+      'media-src': "'self'"
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -40,8 +48,17 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
   }
+
+  ENV.contentSecurityPolicy = {
+    'default-src': ["*"],
+    'script-src': ["*"], // Allow scripts from https://cdn.mxpnl.com
+    'font-src': ["*"], // Allow fonts to be loaded from http://fonts.gstatic.com
+    'connect-src': "'self' http://localhost:3000",
+    'img-src': ["*"],
+    'style-src': ["*"], // Allow inline styles and loaded CSS from http://fonts.googleapis.com
+    'media-src': ["*"] // `media-src` will be omitted from policy, browser will fallback to default-src for media resources.
+  };
 
   return ENV;
 };
